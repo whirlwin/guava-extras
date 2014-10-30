@@ -1,8 +1,5 @@
 package com.whirlwin.regex_switch;
 
-import java.util.Optional;
-import java.util.function.Consumer;
-
 public final class RegexSwitch {
 
     private final String value;

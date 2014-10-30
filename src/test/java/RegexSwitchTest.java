@@ -6,8 +6,8 @@ public final class RegexSwitchTest {
     @Test
     public void test() {
         RegexSwitch.test("foo@bar.com")
-                .matches("foo").then(() -> System.out.println("first option"))
-                .matches("foo.+").then(() -> System.out.println("second option"))
+                .matches("args!").then(() -> System.out.println("first option"))
+                .matches("bar").then(() -> System.out.println("second option"))
                 .matches("foo.+").then(() -> System.out.println("third option"))
                 .otherwise(() -> System.out.println("fourth option"));
     }
