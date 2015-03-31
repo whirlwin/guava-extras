@@ -1,21 +1,22 @@
 package com.whirlwin.regex_switch;
 
-public final class RegexSwitch {
+public final class RegexSwitch<T> {
 
-    private final String value;
+    private final Case<T> caze;
+    
     private boolean hasMatch;
-
-    public RegexSwitch(final String value) {
-        this.value = value;
+    
+    private RegexSwitch(final String testValue) {
+        caze = new Case<>(testValue);
     }
 
-    public static RegexSwitch test(final String value) {
-        return new RegexSwitch(value);
+    public static <T> RegexSwitch test(final String testValue) {
+        return new RegexSwitch<T>(testValue);
     }
-
+    
     public AbstractApplier matches(final String regex) {
         AbstractApplier applier;
-        if (value.matches(regex) && !hasMatch) {
+        if (caze.getTestValue().matches(regex) && !hasMatch) {
             hasMatch = true;
             applier = new DefaultApplier(this);
         } else {
@@ -23,10 +24,21 @@ public final class RegexSwitch {
         }
         return applier;
     }
-
-    public void otherwise(final NoArgFunction noArgFunction) {
-        if (!hasMatch) {
+    
+    public T otherwise(final T value) {
+        return hasMatch ? caze.getReturnValue() : value;
+    }
+    
+    public T otherwise(final NoArgFunction noArgFunction) {
+        if (hasMatch) {
+           return caze.getReturnValue();
+        } else {
             noArgFunction.apply();
+            return null;
         }
+    }
+
+    public Case<T> getCaze() {
+        return caze;
     }
 }
