@@ -11,7 +11,7 @@ guava-extras
 A regex matcher implemented in a switch-style
 
     `````Java
-RegexSwitch.test("foo@bar.com")
+RegexSwitch.<String>test("foo@bar.com")
         .matches("args!").then("first case")
         .matches("bar").then("second case")
         .matches("foo.+").then("third case")

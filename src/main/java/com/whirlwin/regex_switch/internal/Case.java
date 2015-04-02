@@ -13,10 +13,6 @@ public final class Case<T> {
         return testValue;
     }
 
-    public void setTestValue(final String testValue) {
-        this.testValue = testValue;
-    }
-
     public T getReturnValue() {
         return returnValue;
     }
