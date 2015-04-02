@@ -1,4 +1,4 @@
-package com.whirlwin.regex_switch;
+package com.whirlwin.regex_switch.internal;
 
 public final class Case<T> {
     

@@ -1,5 +1,10 @@
 package com.whirlwin.regex_switch;
 
+import com.whirlwin.regex_switch.internal.AbstractApplier;
+import com.whirlwin.regex_switch.internal.Case;
+import com.whirlwin.regex_switch.internal.DefaultApplier;
+import com.whirlwin.regex_switch.internal.NoopApplier;
+
 public final class RegexSwitch<T> {
 
     private final Case<T> caze;
@@ -10,34 +15,23 @@ public final class RegexSwitch<T> {
         caze = new Case<>(testValue);
     }
 
-    public static <T> RegexSwitch test(final String testValue) {
-        return new RegexSwitch<T>(testValue);
+    public static <T> RegexSwitch<T> test(final String testValue) {
+        return new RegexSwitch<>(testValue);
     }
     
-    public AbstractApplier matches(final String regex) {
-        AbstractApplier applier;
+    public AbstractApplier<T> matches(final String regex) {
         if (caze.getTestValue().matches(regex) && !hasMatch) {
             hasMatch = true;
-            applier = new DefaultApplier(this);
+            return new DefaultApplier<>(this);
         } else {
-            applier = new NoopApplier(this);
+            return new NoopApplier<>(this);
         }
-        return applier;
     }
     
     public T otherwise(final T value) {
         return hasMatch ? caze.getReturnValue() : value;
     }
     
-    public T otherwise(final NoArgFunction noArgFunction) {
-        if (hasMatch) {
-           return caze.getReturnValue();
-        } else {
-            noArgFunction.apply();
-            return null;
-        }
-    }
-
     public Case<T> getCaze() {
         return caze;
     }
